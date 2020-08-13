@@ -1,0 +1,37 @@
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: vmug-nginx-sts
+spec:
+  serviceName: demo-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cns-demo
+      environment: cns-demo-1
+  template:
+    metadata:
+      labels:
+        app: cns-demo
+        environment: cns-demo-1
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: demo-pvc
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: demo-pvc
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "vm-storage-policy-wcp"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi
+

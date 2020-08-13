@@ -1,0 +1,18 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: vmug-demo-pod-01
+  labels:
+    app: vmug-demo
+spec:
+  containers:
+  - image: nginx
+    name: ctr-01
+    ports:
+    - containerPort: 80
+  - image: gcr.io/kuar-demo/kuard-amd64:blue
+    name: ctr-02
+    ports:
+    - containerPort: 8080
+
